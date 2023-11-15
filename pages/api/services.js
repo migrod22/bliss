@@ -18,15 +18,34 @@ export const fetchHealth = async () => {
     }
 };
 
-export const fetchQuestions = async () => {
+// export const fetchQuestions = async () => {
+//     try {
+//         const response = await api.get("questions?limit=10&offset=10");
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error getting health status:", error);
+//         throw error;
+//     }
+// };
+
+export const fetchQuestions = async (limit, offset, filter) => {
     try {
-        const response = await api.get("questions?limit=10&offset=10");
+        const queryParams = new URLSearchParams({
+            limit: limit || 10,
+            offset: offset || 0,
+            filter: filter || ''
+        });
+
+        console.log('queryParams', queryParams)
+
+        const response = await api.get(`questions?${queryParams}`);
         return response.data;
     } catch (error) {
-        console.error("Error getting health status:", error);
+        console.error("Error getting questions:", error);
         throw error;
     }
 };
+
 
 
 // export const createBook = async (newBook: any) => {
