@@ -32,6 +32,20 @@ export const fetchQuestions = async (limit, offset, filter) => {
 };
 
 
+export const fetchQuestion = async (id) => {
+    try {
+
+
+        const response = await api.get(`questions/${id}`);
+        console.log('response.data fetchQuestion', response.data)
+        return response.data;
+    } catch (error) {
+        console.error("Error getting questions:", error);
+        throw error;
+    }
+};
+
+
 
 // export const createBook = async (newBook: any) => {
 //     try {

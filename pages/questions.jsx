@@ -8,7 +8,7 @@ const Questions = () => {
     const { filter } = router.query;
 
     const dispatch = useDispatch();
-    const { loading, questions } = useSelector((state) => state.questions);
+    const { loading: loadingQuestions, questions } = useSelector((state) => state.questions);
 
     const [searchInput, setSearchInput] = useState('');
 
@@ -42,6 +42,7 @@ const Questions = () => {
     };
 
     const handleKeyPress = (event) => {
+        console.log('searchInput inside handlekeypress', searchInput)
         if (event.key === 'Enter') {
             getQuestions();
         }
@@ -63,8 +64,8 @@ const Questions = () => {
                 autoFocus={filter !== ''}
             />
             <button onClick={getQuestions}>Search</button>
-            {loading ? (
-                <p>Loading...</p>
+            {loadingQuestions ? (
+                <p>Loading questions...</p>
             ) : (
                 <ul>
                     {questions.map((question, id) => (
