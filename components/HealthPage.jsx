@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { fetchHealth } from '../pages/api/services';
 
 const HealthPage = ({ healthOk, setHealthOk, setLoadingHealth, setErrorHealth }) => {

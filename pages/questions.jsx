@@ -1,15 +1,14 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuestions } from './api/services';
 
 const Questions = () => {
     const router = useRouter();
     const { filter } = router.query;
 
-    console.log('filter', filter)
-
-    const [loadingQuestions, setLoadingQuestions] = useState(true);
-    const [questions, setQuestions] = useState([])
+    const dispatch = useDispatch();
+    const { loading, questions } = useSelector((state) => state.questions);
 
     const [searchInput, setSearchInput] = useState('');
 
@@ -21,28 +20,22 @@ const Questions = () => {
         }
     }, [filter]);
 
-
     const getQuestions = async () => {
         try {
-            setLoadingQuestions(true);
-            // const questionsData = await fetchQuestions();
-            const questionsData = await fetchQuestions(10, 10, filter);
-            setQuestions(questionsData);
-            setLoadingQuestions(false);
+            dispatch({
+                type: 'SET_QUESTIONS',
+                payload: [],
+            });
+            setSearchInput(searchInput);
+            const questionsData = await fetchQuestions(10, 10, searchInput);
+            dispatch({
+                type: 'SET_QUESTIONS',
+                payload: questionsData,
+            });
         } catch (error) {
-            // setErrorQuestions(error);
             console.error("Error fetching questions:", error);
-            setLoadingQuestions(false);
         }
     };
-
-    // const handleSearch = () => {
-    //    
-    //     router.push({
-    //         pathname: '/questions',
-    //         query: { filter: searchInput },
-    //     });
-    // };
 
     const handleInputChange = (event) => {
         setSearchInput(event.target.value);
@@ -54,7 +47,10 @@ const Questions = () => {
         }
     };
 
-    console.log('questions', questions)
+    useEffect(() => {
+        getQuestions();
+    }, [searchInput])
+
 
     return (
         <div>
@@ -67,7 +63,15 @@ const Questions = () => {
                 autoFocus={filter !== ''}
             />
             <button onClick={getQuestions}>Search</button>
-            {questions}
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <ul>
+                    {questions.map((question, id) => (
+                        <li key={id}>{question.question}</li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

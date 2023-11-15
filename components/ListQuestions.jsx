@@ -1,44 +1,51 @@
-import React, { useEffect, useState } from 'react'
-import { fetchHealth, fetchQuestions } from '../pages/api/services';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchQuestions } from '../pages/api/services';
+
 
 export const ListQuestions = () => {
+    const dispatch = useDispatch();
+    const { loading: loadingQuestions, questions } = useSelector(
+        (state) => state.questions
+    );
 
-    const [loadingQuestions, setLoadingQuestions] = useState(true);
-    const [questions, setQuestions] = useState([])
 
 
     const getQuestions = async () => {
         try {
-            setLoadingQuestions(true);
+            dispatch({
+                type: 'SET_QUESTIONS',
+                payload: [],
+            });
             const questionsData = await fetchQuestions();
-            setQuestions(questionsData);
-            setLoadingQuestions(false);
+            dispatch({
+                type: 'SET_QUESTIONS',
+                payload: questionsData,
+            });
         } catch (error) {
-            // setErrorQuestions(error);
-            console.error("Error fetching questions:", error);
-            setLoadingQuestions(false);
+            console.error('Error fetching questions:', error);
         }
     };
 
 
     useEffect(() => {
         getQuestions();
-    }, []);
-
-    console.log('questions', questions)
+    }, [dispatch]);
 
 
     return (
         <>
+            <a className="text-yellow-700 bg-yellow-500">List Questions</a>
 
-            <a className='text-yellow-700 bg-yellow-500'>List Questions</a>
-
-            <ul>
-                {questions.map((question, id) =>
-                    <li key={id}>{question.question}</li>
-                )}
-            </ul>
-
+            {loadingQuestions ? (
+                <p>Loading...</p>
+            ) : (
+                <ul>
+                    {questions.map((question, id) => (
+                        <li key={id}>{question.question}</li>
+                    ))}
+                </ul>
+            )}
         </>
-    )
-}
+    );
+};

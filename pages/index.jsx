@@ -12,7 +12,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    console.log('healthOk INDEX', healthOk)
+    // console.log('healthOk INDEX', healthOk)
   }, [healthOk])
 
 
@@ -20,7 +20,6 @@ export default function Home() {
   return (
     <>
       <HealthPage healthOk={healthOk} setHealthOk={setHealthOk} setLoadingHealth={setLoadingHealth} setErrorHealth={setErrorHealth} />
-
       {loadingHealth && <p>Loading Health</p>}
       {!healthOk && <button>Retry Health</button>}
       {healthOk && <ListQuestions />}
