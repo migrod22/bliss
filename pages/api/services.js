@@ -17,8 +17,6 @@ export const fetchHealth = async () => {
 
 export const fetchQuestions = async (limit, offset, filter) => {
   try {
-    console.log('typeof(limit)', typeof limit)
-    console.log('typeof(offset)', typeof offset)
     const queryParams = new URLSearchParams({
       limit: limit || 10,
       offset: offset || 0,
@@ -40,6 +38,19 @@ export const fetchQuestion = async (id) => {
     return response.data
   } catch (error) {
     console.error('Error getting questions:', error)
+    throw error
+  }
+}
+
+export const sendEmail = async (email, content_url) => {
+  try {
+    console.log('email, content_url inside SERVICE!!!!', email, content_url)
+    const response = await api.get(
+      `share?destination_email=${email}&content_url=${content_url}`
+    )
+    return response.data
+  } catch (error) {
+    console.error('Error sending email:', error)
     throw error
   }
 }

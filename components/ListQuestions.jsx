@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchQuestions } from '../pages/api/services'
 import { useRouter } from 'next/router'
+import ShareScreen from './ShareScreen'
 
 export const ListQuestions = () => {
   const dispatch = useDispatch()
@@ -12,6 +13,9 @@ export const ListQuestions = () => {
 
   const [searchInput, setSearchInput] = useState('')
   const [counterQuestions, setCounterQuestions] = useState(1)
+
+  const [isSharing, setIsSharing] = useState(false)
+  const [shareableURL, setShareableURL] = useState('')
 
   const getQuestions = async (limit, offset) => {
     try {
@@ -30,7 +34,6 @@ export const ListQuestions = () => {
   }
 
   // Search input related code
-
   const handleInputChange = (event) => {
     setSearchInput(event.target.value)
   }
@@ -52,10 +55,25 @@ export const ListQuestions = () => {
     router.push(`/questions/${questionId}`)
   }
 
-  // Get first 10 questions when page loads
+  // Reset search
+  const handleDismiss = () => {
+    setSearchInput()
+    // getQuestions();
+  }
+
+  // Get the first 10 questions when page first loads
   useEffect(() => {
     getQuestions()
   }, [])
+
+  // Share feature
+  const handleShare = () => {
+    setIsSharing(!isSharing)
+    const shareableURL = `${
+      window.location.origin
+    }/questions/?filter=${encodeURIComponent(searchInput)}`
+    setShareableURL(shareableURL)
+  }
 
   return (
     <>
@@ -68,6 +86,8 @@ export const ListQuestions = () => {
           placeholder='Search question'
         />
         <button onClick={() => getQuestions()}>Search</button>
+        <button onClick={() => handleDismiss()}>Dismiss</button>
+        <button onClick={() => handleShare()}>Share</button>
         {loadingQuestions ? (
           <p>Loading questions...</p>
         ) : (
@@ -80,6 +100,7 @@ export const ListQuestions = () => {
           </ul>
         )}
         <button onClick={() => loadMoreQuestions()}>Load More</button>
+        {isSharing && <ShareScreen shareableURL={shareableURL} />}
       </div>
     </>
   )
