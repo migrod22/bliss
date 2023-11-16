@@ -19,7 +19,7 @@ export default function Home() {
         setLoadingHealth={setLoadingHealth}
         setErrorHealth={setErrorHealth}
       />
-      {loadingHealth && <p>Loading Health</p>}
+      {loadingHealth && <p className='bg-red-600'>Loading Health</p>}
       {!healthOk && <button>Retry Health</button>}
       {healthOk && <ListQuestions />}
     </>
