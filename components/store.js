@@ -1,20 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-
+import { configureStore } from '@reduxjs/toolkit'
 
 const questionsReducer = (state = { questions: [], loading: true }, action) => {
-    switch (action.type) {
-        case 'SET_QUESTIONS':
-            return { ...state, questions: action.payload, loading: false };
+  switch (action.type) {
+    case 'SET_QUESTIONS':
+      return { ...state, questions: action.payload, loading: false }
 
-        default:
-            return state;
-    }
-};
+    default:
+      return state
+  }
+}
 
 const store = configureStore({
-    reducer: {
-        questions: questionsReducer,
-    },
-});
+  reducer: {
+    questions: questionsReducer,
+  },
+})
 
-export default store;
+export default store
