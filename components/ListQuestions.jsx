@@ -87,7 +87,6 @@ export const ListQuestions = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <p className="bg-red-600 text-white py-2 px-4 mb-4">TEST TAILWIND</p>
             <input
                 type="text"
                 value={searchInput}
@@ -108,27 +107,30 @@ export const ListQuestions = () => {
             <button className="bg-green-500 text-white p-2" onClick={handleShare}>
                 Share
             </button>
-            {loadingQuestions ? (
-                <p>Loading questions...</p>
-            ) : (
-                <ul className="list-disc pl-4">
-                    {questions.map((question, id) => (
-                        <li
-                            key={id}
-                            onClick={() => handleSelectQuestion(question.id)}
-                            className="cursor-pointer text-blue-500 hover:underline mb-2"
-                        >
-                            {question.question}
-                        </li>
-                    ))}
-                </ul>
-            )}
-            <button
-                className="bg-purple-500 text-white p-2 mt-4"
-                onClick={() => loadMoreQuestions()}
-            >
-                Load More
-            </button>
+            <div className='flex flex-col items-center justify-center'>
+                {loadingQuestions ? (
+                    <p>Loading questions...</p>
+                ) : (
+                    <ul className="list-disc pl-4">
+                        {questions.map((question, id) => (
+                            <li
+                                key={id}
+                                onClick={() => handleSelectQuestion(question.id)}
+                                className="cursor-pointer text-blue-500 hover:underline mb-2"
+                            >
+                                {question.question}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <button
+                    className="bg-purple-500 text-white p-2 mt-4"
+                    onClick={() => loadMoreQuestions()}
+                >
+                    Load More
+                </button>
+            </div>
+
             {isSharing && <ShareScreen shareableURL={shareableURL} />}
         </div>
     );

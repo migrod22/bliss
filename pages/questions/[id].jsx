@@ -40,47 +40,53 @@ const ID = () => {
 
   const toggleVoteModal = (choice) => {
     setVotedChoice(choice);
-
-    return setOpenModal((state) => !state);
+    setOpenModal(!openModal);
   };
 
   return (
     <>
-      <a className="text-blue-500 hover:underline">Question {question?.question}</a>
-      <p className="mb-4">List of choices</p>
-      {question?.choices.map((choice) => (
-        <div key={choice.choice} className="mb-2">
-          <button
-            className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-            onClick={() => toggleVoteModal(choice)}
-          >
-            {choice.choice}
-          </button>
+      <>
+        <div className="flex flex-col items-center justify-center">
+          <a className="text-blue-500 hover:underline mb-2">{question?.question}</a>
+          <p className="mb-4">List of choices</p>
+          {question?.choices.map((choice) => (
+            <div key={choice.choice} className="mb-2">
+              <button
+                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 w-52 h-12"
+                onClick={() => toggleVoteModal(choice)}
+              >
+                {choice.choice} - {choice.votes} Votes
+              </button>
+            </div>
+          ))}
+
+          {/* <div className="mb-4">Detail Page for question with {id}</div> */}
+          <div className="flex">
+            <button
+              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 w-32"
+              onClick={() => handleShare()}
+            >
+              Share
+            </button>
+            <button
+              className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 w-32 ml-2"
+              onClick={() => router.push("/")}
+            >
+              Go back
+            </button>
+          </div>
         </div>
-      ))}
+        {openModal &&
+          <VotePage
+            choice={votedChoice}
+            onClose={() => setOpenModal(false)}
+            confirmVote={() => updateQuestionService(question, votedChoice, +id)}
+          />}
+        {isSharing && <ShareScreen shareableURL={shareableURL} />}
+      </>
 
-      <div className="mb-4">Detail Page for question with {id}</div>
-      <button
-        className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 mr-2"
-        onClick={() => handleShare()}
-      >
-        Share
-      </button>
-      <button
-        className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700"
-        onClick={() => router.push("/")}
-      >
-        Go back
-      </button>
-
-      <VotePage
-        isOpen={openModal}
-        choice={votedChoice}
-        onClose={() => setOpenModal(false)}
-        confirmVote={() => updateQuestionService(question, votedChoice, +id)}
-      />
-      {isSharing && <ShareScreen shareableURL={shareableURL} />}
     </>
+
 
   )
 }

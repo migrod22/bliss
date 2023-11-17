@@ -23,17 +23,30 @@ const ShareScreen = ({ shareableURL }) => {
     }
     return (
         <>
-            <input
-                type='text'
-                value={email}
-                onChange={handleChangeEmail}
-                placeholder='Enter destination email'
-            />
-            <button onClick={() => handleSendEmail(email, shareableURL)}>
-                Send Email
-            </button>
-            {sucessMessage && <a>{sucessMessage}</a>}
-            {errorMessage && <a className='bg-red-500'>{errorMessage}</a>}
+            <div className='mt-5 flex items-center justify-center'>
+                <input
+                    type="text"
+                    value={email}
+                    onChange={handleChangeEmail}
+                    placeholder="Enter destination email"
+                    className="border border-gray-300 p-2 rounded-md"
+                />
+
+                <button
+                    onClick={() => handleSendEmail(email, shareableURL)}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+                >
+                    Send Email
+                </button>
+
+                {sucessMessage && (
+                    <p className="text-green-600 mt-2">{sucessMessage}</p>
+                )}
+
+                {errorMessage && (
+                    <p className="bg-red-500 text-white p-2 rounded-md mt-2">{errorMessage}</p>
+                )}
+            </div>
         </>
     )
 }
