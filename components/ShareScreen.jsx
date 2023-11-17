@@ -3,14 +3,14 @@ import { sendEmail } from '../pages/api/services'
 
 const ShareScreen = ({ shareableURL }) => {
     const [email, setEmail] = useState('')
-    console.log('shareableURL', shareableURL)
     const [sucessMessage, setSucessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleSendEmail = async (email, shareableURL) => {
         console.log('email, shareableURL', email, shareableURL)
         try {
-            const questionsData = await sendEmail(email, shareableURL)
+            // const questionsData = await sendEmail(email, shareableURL)
+            await sendEmail(email, shareableURL)
             setSucessMessage('Email Sent!')
         } catch (error) {
             setErrorMessage('Error sending email, please try again later')

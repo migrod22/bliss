@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchQuestions } from './api/services'
+import { ListQuestions } from '../components/ListQuestions'
 
 const Questions = () => {
   const router = useRouter()
@@ -55,26 +56,27 @@ const Questions = () => {
   }, [searchInput])
 
   return (
-    <div>
-      <input
-        type='text'
-        value={searchInput}
-        onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
-        placeholder='Search...'
-        autoFocus={filter !== ''}
-      />
-      <button onClick={getQuestions}>Search</button>
-      {loadingQuestions ? (
-        <p>Loading questions...</p>
-      ) : (
-        <ul>
-          {questions.map((question, id) => (
-            <li key={id}>{question.question}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+    // <div>
+    //   <input
+    //     type='text'
+    //     value={searchInput}
+    //     onChange={handleInputChange}
+    //     onKeyPress={handleKeyPress}
+    //     placeholder='Search...'
+    //     autoFocus={filter !== ''}
+    //   />
+    //   <button onClick={getQuestions}>Search</button>
+    //   {loadingQuestions ? (
+    //     <p>Loading questions...</p>
+    //   ) : (
+    //     <ul>
+    //       {questions.map((question, id) => (
+    //         <li key={id}>{question.question}</li>
+    //       ))}
+    //     </ul>
+    //   )}
+    // </div>
+    <ListQuestions />
   )
 }
 

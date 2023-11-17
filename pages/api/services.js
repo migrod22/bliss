@@ -34,7 +34,6 @@ export const fetchQuestions = async (limit, offset, filter) => {
 export const fetchQuestion = async (id) => {
   try {
     const response = await api.get(`questions/${id}`)
-    console.log('response.data fetchQuestion', response.data)
     return response.data
   } catch (error) {
     console.error('Error getting questions:', error)
@@ -44,7 +43,6 @@ export const fetchQuestion = async (id) => {
 
 export const sendEmail = async (email, content_url) => {
   try {
-    console.log('email, content_url inside SERVICE!!!!', email, content_url)
     const response = await api.get(
       `share?destination_email=${email}&content_url=${content_url}`
     )
@@ -55,12 +53,22 @@ export const sendEmail = async (email, content_url) => {
   }
 }
 
-// export const createBook = async (newBook: any) => {
-//     try {
-//         const response = await api.post("livro/", newBook);
-//         return response.data;
-//     } catch (error) {
-//         console.error("Error creating book:", error);
-//         throw error;
-//     }
-// };
+export const updateQuestionService = async (question, votedChoice, question_id) => {
+  try {
+    const payload = {
+      ...question,
+      choices: question.choices.map((choice) => {
+        if (choice.choice === votedChoice.choice) {
+          return { ...choice, votes: votedChoice.votes + 1 };
+        }
+        return { ...choice };
+      }),
+    };
+
+    const response = await api.put(`/questions/${question_id}`, { payload });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating question:', error);
+    throw error;
+  }
+};
