@@ -1,8 +1,8 @@
-import React from 'react'
-import { toast } from 'react-toastify'
+import React, { useEffect, useRef } from 'react'
+import toast from 'react-hot-toast'
 
 const VotePage = ({ choice, onClose, confirmVote }) => {
-    console.log('choice VOTEPAGE', choice)
+    const modalRef = useRef(null)
 
     const confirmAndClose = () => {
         toast.success("Hey, just got your vote!")
@@ -10,11 +10,23 @@ const VotePage = ({ choice, onClose, confirmVote }) => {
         onClose()
     }
 
+    const handleClickOutsideModal = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            onClose()
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutsideModal)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutsideModal)
+        }
+    }, [])
+
     return (
         <>
-
             <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="bg-white w-full max-w-md p-6 rounded-md shadow-md">
+                <div ref={modalRef} className="bg-white w-full max-w-md p-6 rounded-md shadow-md">
                     <div className="flex items-center justify-end">
                         <button
                             onClick={onClose}
@@ -40,8 +52,6 @@ const VotePage = ({ choice, onClose, confirmVote }) => {
                 </div>
             </div>
         </>
-
-
     )
 }
 

@@ -7,7 +7,6 @@ import ShareScreen from './ShareScreen';
 export const ListQuestions = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-
     const { filter } = router.query
 
     const { loading: loadingQuestions, questions } = useSelector(
@@ -16,7 +15,6 @@ export const ListQuestions = () => {
 
     const [searchInput, setSearchInput] = useState(filter ? filter : "");
     const [counterQuestions, setCounterQuestions] = useState(1);
-
     const [isSharing, setIsSharing] = useState(false);
     const [shareableURL, setShareableURL] = useState('');
 
@@ -89,7 +87,7 @@ export const ListQuestions = () => {
         <div className="container mx-auto p-4">
             <input
                 type="text"
-                value={searchInput}
+                value={filter ? filter : searchInput}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyPress}
                 placeholder="Search question"

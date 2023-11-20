@@ -33,7 +33,6 @@ const ID = () => {
     setShareableURL(shareableURL)
   }
 
-
   useEffect(() => {
     getQuestion()
   }, [])
@@ -47,7 +46,7 @@ const ID = () => {
     <>
       <>
         <div className="flex flex-col items-center justify-center">
-          <a className="text-blue-500 hover:underline mb-2">{question?.question}</a>
+          <a className="text-blue-500 text-3xl hover:underline mb-2">{question?.question}</a>
           <p className="mb-4">List of choices</p>
           {question?.choices.map((choice) => (
             <div key={choice.choice} className="mb-2">
@@ -60,7 +59,6 @@ const ID = () => {
             </div>
           ))}
 
-          {/* <div className="mb-4">Detail Page for question with {id}</div> */}
           <div className="flex">
             <button
               className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 w-32"

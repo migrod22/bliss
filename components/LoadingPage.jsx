@@ -2,7 +2,7 @@ import React from 'react'
 
 const LoadingPage = () => {
     return (
-        <h1> Loading 🔄 </h1>
+        <a className='flex items-center justify-center'>Loading 🔄</a>
     )
 }
 

@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import { sendEmail } from '../pages/api/services'
+import toast from 'react-hot-toast'
 
 const ShareScreen = ({ shareableURL }) => {
     const [email, setEmail] = useState('')
-    const [sucessMessage, setSucessMessage] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
 
     const handleSendEmail = async (email, shareableURL) => {
-        console.log('email, shareableURL', email, shareableURL)
         try {
-            // const questionsData = await sendEmail(email, shareableURL)
             await sendEmail(email, shareableURL)
-            setSucessMessage('Email Sent!')
+            toast.sucess("Email Sent!")
         } catch (error) {
-            setErrorMessage('Error sending email, please try again later')
+            toast.error("Error sending email, please try again later...")
             console.error('Error sending email:', error)
         }
     }
@@ -38,14 +35,6 @@ const ShareScreen = ({ shareableURL }) => {
                 >
                     Send Email
                 </button>
-
-                {sucessMessage && (
-                    <p className="text-green-600 mt-2">{sucessMessage}</p>
-                )}
-
-                {errorMessage && (
-                    <p className="bg-red-500 text-white p-2 rounded-md mt-2">{errorMessage}</p>
-                )}
             </div>
         </>
     )

@@ -11,7 +11,6 @@ const HealthPage = ({
     try {
       setLoadingHealth(true)
       const healthData = await fetchHealth()
-      console.log('healthData HEALTH PAGE', healthData)
       if (healthData.status == 'OK') {
         setHealthOk(true)
       } else {
@@ -19,7 +18,7 @@ const HealthPage = ({
       }
       setLoadingHealth(false)
     } catch (error) {
-      setErrorHealth(error)
+      setErrorHealth(true)
       console.error('Error fetching health status:', error)
       setLoadingHealth(false)
     }
@@ -29,9 +28,15 @@ const HealthPage = ({
     checkHealth()
   }, [])
 
-  // return (
-  //     <div>HealthPage</div>
-  // )
+  return (
+    <>
+      <a className='flex items-center justify-center'>
+        {!healthOk &&
+          <button className="bg-red-500 text-white p-2 mr-2" onClick={() => checkHealth()}>Retry Health</button>
+        }
+      </a>
+    </>
+  )
 }
 
 export default HealthPage
