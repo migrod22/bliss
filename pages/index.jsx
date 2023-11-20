@@ -12,7 +12,6 @@ export default function Home() {
   return (
     <>
       {errorHealth && <p className='flex items-center justify-center text-red-500'>Upsss, something went wrong!</p>}
-
       <HealthPage
         healthOk={healthOk}
         setHealthOk={setHealthOk}

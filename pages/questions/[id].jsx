@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { fetchQuestion, updateQuestionService } from '../api/services'
 import ShareScreen from '../../components/ShareScreen'
 import VotePage from '../../components/VotePage'
+import Image from 'next/image'
 
 const ID = () => {
   const router = useRouter()
@@ -44,48 +45,51 @@ const ID = () => {
 
   return (
     <>
-      <>
-        <div className="flex flex-col items-center justify-center">
-          <a className="text-blue-500 text-3xl hover:underline mb-2">{question?.question}</a>
-          <p className="mb-4">List of choices</p>
-          {question?.choices.map((choice) => (
-            <div key={choice.choice} className="mb-2">
-              <button
-                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 w-52 h-12"
-                onClick={() => toggleVoteModal(choice)}
-              >
-                {choice.choice} - {choice.votes} Votes
-              </button>
-            </div>
-          ))}
-
-          <div className="flex">
+      <div className="flex flex-col items-center justify-center">
+        <a className="text-blue-500 text-3xl hover:underline mb-2">{question?.question}</a>
+        <div className='flex items-center'>
+          <Image
+            src={question?.thumb_url}
+            alt='question'
+            width={120}
+            height={120}
+          />
+        </div>
+        <p className="mb-4">List of choices</p>
+        {question?.choices.map((choice) => (
+          <div key={choice.choice} className="mb-2">
             <button
-              className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 w-32"
-              onClick={() => handleShare()}
+              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 w-52 h-12"
+              onClick={() => toggleVoteModal(choice)}
             >
-              Share
-            </button>
-            <button
-              className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 w-32 ml-2"
-              onClick={() => router.push("/")}
-            >
-              Go back
+              {choice.choice} - {choice.votes} Votes
             </button>
           </div>
+        ))}
+
+        <div className="flex">
+          <button
+            className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 w-32"
+            onClick={() => handleShare()}
+          >
+            Share
+          </button>
+          <button
+            className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-700 w-32 ml-2"
+            onClick={() => router.push("/")}
+          >
+            Go back
+          </button>
         </div>
-        {openModal &&
-          <VotePage
-            choice={votedChoice}
-            onClose={() => setOpenModal(false)}
-            confirmVote={() => updateQuestionService(question, votedChoice, +id)}
-          />}
-        {isSharing && <ShareScreen shareableURL={shareableURL} />}
-      </>
-
+      </div>
+      {openModal &&
+        <VotePage
+          choice={votedChoice}
+          onClose={() => setOpenModal(false)}
+          confirmVote={() => updateQuestionService(question, votedChoice, +id)}
+        />}
+      {isSharing && <ShareScreen shareableURL={shareableURL} />}
     </>
-
-
   )
 }
 export default ID
