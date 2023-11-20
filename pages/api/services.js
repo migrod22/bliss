@@ -1,9 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL:
-    'https://private-anon-14eb092cc3-blissrecruitmentapi.apiary-mock.com/',
-})
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+});
 
 export const fetchHealth = async () => {
   try {
