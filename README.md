@@ -22,7 +22,4 @@ npm install
 ### Run Project
 ```bash
 npm run dev
-
-[Localhost](http://localhost:3000/)
-
 ```
