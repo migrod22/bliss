@@ -13,17 +13,17 @@ export const ListQuestions = () => {
         (state) => state.questions
     );
 
-    const [searchInput, setSearchInput] = useState(filter ? filter : "");
+    const [searchInput, setSearchInput] = useState(filter ? filter : null);
     const [counterQuestions, setCounterQuestions] = useState(1);
     const [isSharing, setIsSharing] = useState(false);
     const [shareableURL, setShareableURL] = useState('');
 
-    const getQuestions = async (limit, offset) => {
+    const getQuestions = async (limit, offset, search) => {
         try {
             const questionsData = await fetchQuestions(
                 limit || 10,
                 offset || 0,
-                searchInput
+                search ? search : searchInput
             );
             dispatch({
                 type: 'SET_QUESTIONS',
@@ -48,7 +48,7 @@ export const ListQuestions = () => {
     // Load Questions function
     const loadMoreQuestions = () => {
         setCounterQuestions(counterQuestions + 1);
-        getQuestions(10, counterQuestions * 10);
+        getQuestions(10, counterQuestions * 10, searchInput);
     };
 
     // Redirect to question detail page
@@ -67,7 +67,6 @@ export const ListQuestions = () => {
             getQuestions()
         }
     }, [searchInput])
-
 
     // Get the first 10 questions when the page first loads
     useEffect(() => {

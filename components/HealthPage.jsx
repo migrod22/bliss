@@ -4,6 +4,7 @@ import { fetchHealth } from '../pages/api/services'
 const HealthPage = ({
   healthOk,
   setHealthOk,
+  loadingHealth,
   setLoadingHealth,
   setErrorHealth,
 }) => {
@@ -31,7 +32,7 @@ const HealthPage = ({
   return (
     <>
       <a className='flex items-center justify-center'>
-        {!healthOk &&
+        {!healthOk && !loadingHealth &&
           <button className="bg-red-500 text-white p-2 mr-2" onClick={() => checkHealth()}>Retry Health</button>
         }
       </a>
