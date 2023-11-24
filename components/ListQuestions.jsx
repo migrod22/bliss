@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuestions } from '../pages/api/services';
 import { useRouter } from 'next/router';
 import ShareScreen from './ShareScreen';
 
 export const ListQuestions = () => {
+
     const dispatch = useDispatch();
     const router = useRouter();
     const { filter } = router.query
+    const inputRef = useRef(null);
 
     const { loading: loadingQuestions, questions } = useSelector(
         (state) => state.questions
@@ -34,10 +36,13 @@ export const ListQuestions = () => {
         }
     };
 
-    // Search input related code
-    const handleInputChange = (event) => {
-        setSearchInput(event.target.value);
-    };
+
+
+    useEffect(() => {
+        if (inputRef.current && filter) {
+            inputRef.current.value = filter;
+        }
+    }, [filter]);
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -48,12 +53,12 @@ export const ListQuestions = () => {
     // Load Questions function
     const loadMoreQuestions = () => {
         setCounterQuestions(counterQuestions + 1);
-        getQuestions(10, counterQuestions * 10, searchInput);
+        getQuestions(10, counterQuestions * 10, filter ? filter : inputRef.current.value);
     };
 
     // Redirect to question detail page
     const handleSelectQuestion = async (questionId) => {
-        router.push(`/questions/${questionId}`);
+        router.push(`/question/${questionId}`);
     };
 
     // Reset search
@@ -86,15 +91,13 @@ export const ListQuestions = () => {
         <div className="container mx-auto p-4">
             <input
                 type="text"
-                value={filter ? filter : searchInput}
-                onChange={handleInputChange}
+                ref={inputRef}
                 onKeyDown={handleKeyPress}
                 placeholder="Search question"
                 className="border border-gray-300 p-2 mb-4"
             />
-            <button
-                className="bg-blue-500 text-white p-2 mr-2"
-                onClick={() => getQuestions()}
+            <button className="bg-blue-500 text-white p-2 mr-2"
+                onClick={() => getQuestions(10, 0, inputRef.current.value)}
             >
                 Search
             </button>
