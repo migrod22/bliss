@@ -1,5 +1,7 @@
 # Bliss Project
 
+Technical Assessment for Bliss Applications 2023
+
 ## Getting Started
 
 ### Clone Repository
